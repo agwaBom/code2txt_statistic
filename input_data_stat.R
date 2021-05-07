@@ -1,5 +1,5 @@
 getwd()
-setwd("/Users/hyunjinkim/Google 드라이브(khyunjin1993@g.skku.edu)/Human_Language_Intelligence_Lab/research/statistic/")
+setwd("/Users/hyunjinkim/Google 드라이브(khyunjin1993@g.skku.edu)/Human_Language_Intelligence_Lab/research/code2txt_statistic/")
 library(dplyr)
 library(ggplot2)
 
@@ -89,15 +89,13 @@ clang_code%>%ggplot(aes(x=name, y=value, fill=name))+
   ggtitle("Boxplot of Clang code sequence length") +
   ylab("sequence length")+
   xlab("compiler type")+
-  coord_flip()+
-  scale_y_log10()
-
+  coord_flip()
 
 boxplot(clang_O0_target_vec,
         clang_O1_target_vec, 
         clang_O2_target_vec, 
         clang_O3_target_vec, 
-        names = c("clang_O0","clang_O1","clang_O2","clang_O3"),col=c("red","green","blue","yellow"), horizontal = TRUE, outline=FALSE, xlab="sequence length", main ="Boxplot of Clang function name sequence length")
+        names = c("clang_O0","clang_O1","clang_O2","clang_O3"),col=c("red","green","blue","yellow"), horizontal = TRUE, outline=TRUE, xlab="sequence length", main ="Boxplot of Clang function name sequence length")
 #[1]   0  46  82 173 363
 boxplot.stats(clang_O0_target_vec)$stats
 #[1]   0   8  29  94 223
@@ -136,7 +134,7 @@ gcc_code%>%ggplot(aes(x=name, y=value, fill=name))+
   geom_jitter(color="black", size=0.5, alpha=0.1) +
   theme(legend.position="none",
         plot.title = element_text(size=11)) +
-  ggtitle("Boxplot of Gcc code sequence length") +
+  ggtitle("Boxplot of GCCs code sequence length") +
   ylab("sequence length")+
   xlab("compiler type")+
   coord_flip()+
@@ -148,7 +146,7 @@ boxplot(gcc_O0_target_vec,
         gcc_O1_target_vec, 
         gcc_O2_target_vec, 
         gcc_O3_target_vec, 
-        names = c("gcc_O0","gcc_O1","gcc_O2","gcc_O3"),col=c("red","green","blue","yellow"), horizontal = TRUE, outline=FALSE, xlab="sequence length", main ="Boxplot of Gcc function name sequence length")
+        names = c("gcc_O0","gcc_O1","gcc_O2","gcc_O3"),col=c("red","green","blue","yellow"), horizontal = TRUE, outline=TRUE, xlab="sequence length", main ="Boxplot of Gcc function name sequence length")
 #[1]   0  46  82 173 363
 boxplot.stats(gcc_O0_target_vec)$stats
 #[1]   0   8  29  94 223
@@ -158,4 +156,57 @@ boxplot.stats(gcc_O2_target_vec)$stats
 #[1]   0  35 115 288 667
 boxplot.stats(gcc_O3_target_vec)$stats
 
-?read.delim()
+# Clang Vocab freq
+freq_clang_O0_source = read.csv(file="./code_freq/compiler_dataset/clang_O0_source.txt", header = FALSE, sep="|")
+freq_clang_O0_source['V1']
+freq_clang_O0_source['V2']
+typeof(freq_clang_O0_source)
+
+barplot(unlist(freq_clang_O0_source['V2']), 
+        names.arg = unlist(freq_clang_O0_source['V1']),
+        las=2,
+        cex.axis=1,
+        cex.names=0.2,
+        main = "Source token frequency clang_O0_all_split")
+
+freq_clang_O0_source = read.csv(file="./code_freq/compiler_dataset/remove_inBody/clang_O0_source.txt", header = FALSE, sep="|")
+barplot(unlist(freq_clang_O0_source['V2']), 
+        names.arg = unlist(freq_clang_O0_source['V1']),
+        las=2,
+        cex.axis=1,
+        cex.names=0.2,
+        main = "Source token frequency clang_O0_remove_in_body_split")
+
+freq_clang_O0_source = read.csv(file="./code_freq/compiler_dataset/original/clang_O0_source.txt", header = FALSE, sep="|")
+barplot(unlist(freq_clang_O0_source['V2']), 
+        names.arg = unlist(freq_clang_O0_source['V1']),
+        las=2,
+        cex.axis=1,
+        cex.names=0.2,
+        main = "Source token frequency clang_O0_original")
+
+
+# GCC Vocab freq
+freq_gcc_O0_source = read.csv(file="./code_freq/compiler_dataset/gcc_O0_source.txt", header = FALSE, sep="|")
+barplot(unlist(freq_gcc_O0_source['V2']), 
+        names.arg = unlist(freq_gcc_O0_source['V1']),
+        las=2,
+        cex.axis=1,
+        cex.names=0.2,
+        main = "Source token frequency gcc_O0_all_split")
+
+freq_gcc_O0_source = read.csv(file="./code_freq/compiler_dataset/remove_inBody/gcc_O0_source.txt", header = FALSE, sep="|")
+barplot(unlist(freq_gcc_O0_source['V2']), 
+        names.arg = unlist(freq_gcc_O0_source['V1']),
+        las=2,
+        cex.axis=1,
+        cex.names=0.2,
+        main = "Source token frequency gcc_O0_remove_in_body_split")
+
+freq_gcc_O0_source = read.csv(file="./code_freq/compiler_dataset/original/gcc_O0_source.txt", header = FALSE, sep="|")
+barplot(unlist(freq_gcc_O0_source['V2']), 
+        names.arg = unlist(freq_gcc_O0_source['V1']),
+        las=2,
+        cex.axis=1,
+        cex.names=0.2,
+        main = "Source token frequency gcc_O0_original")
